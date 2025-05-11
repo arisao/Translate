@@ -43,7 +43,7 @@ public class TranslateWithFont {
 
     public static void main(String[] args) {
         if (args.length < 2) {
-            System.out.println("使い方: java TranslateWithFont <置換CSVファイルパス> <変換対象フォルダパス>");
+            System.out.println("使い方: java TranslateWithFont <置換CSVファイルパス、ファイル名も含む> <変換対象フォルダパス>");
             //プログラム終了
             System.exit(1);
         }

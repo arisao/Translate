@@ -126,7 +126,7 @@ public class TranslateWithFont {
         	    XWPFRun newRun = para.createRun();
         	    newRun.setText(text);
         	     // フォント設定
-        	    newRun.setFontFamily(FONT_NAME); 
+        	    newRun.setFontFamily(FONT_NAME);
         	}
 
             try (FileOutputStream fos = new FileOutputStream(file)) {
@@ -180,6 +180,7 @@ public class TranslateWithFont {
 
             for (XSLFSlide slide : ppt.getSlides()) {
                 for (XSLFShape shape : slide.getShapes()) {
+                	//オブジェクトの型を判定
                 	if (shape instanceof XSLFTextShape) {
                 	    XSLFTextShape textShape = (XSLFTextShape) shape;
                 	    updateTextShape(textShape);
@@ -228,21 +229,25 @@ public class TranslateWithFont {
         run.setFontFamily(FONT_NAME);  // 必要であればフォント設定
     }
     //スライドマスターのフォントも変更する
+    
+    //どういうライブラリーを使っているのか、
+    //どういうインプット、アウトプットなのか
+    //引数が何か、変換後のパス引数、//大枠の説明とインプットとアウトプットができるか。
 	private static void modifyThemeFonts(XMLSlideShow ppt, String fontName) {
         for (XSLFSlideMaster master : ppt.getSlideMasters()) {
             XSLFTheme theme = master.getTheme();
             if (theme == null) continue;
-
+            //XMLドキュメントをJavaオブジェクトとして操作するための基底クラス（抽象クラス）
             CTOfficeStyleSheet styleSheet = theme.getXmlObject();
             if (styleSheet.getThemeElements() != null &&
                 styleSheet.getThemeElements().getFontScheme() != null) {
 
                 CTFontScheme fontScheme = styleSheet.getThemeElements().getFontScheme();
-
+                //Major font：主にタイトルや見出しで使用されるフォント
                 if (fontScheme.getMajorFont() != null && fontScheme.getMajorFont().getLatin() != null) {
                     fontScheme.getMajorFont().getLatin().setTypeface(fontName);
                 }
-
+                //Minor font　本文で使用されるフォント
                 if (fontScheme.getMinorFont() != null && fontScheme.getMinorFont().getLatin() != null) {
                     fontScheme.getMinorFont().getLatin().setTypeface(fontName);
                 }
